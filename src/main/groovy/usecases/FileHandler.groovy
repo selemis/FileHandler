@@ -1,4 +1,7 @@
-import javax.swing.table.TableModel
+package usecases
+
+import groovy.transform.Canonical
+import groovy.transform.TupleConstructor
 
 class FileHandler {
 

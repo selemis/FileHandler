@@ -1,3 +1,5 @@
+package gui;
+
 import java.awt.Font;
 import java.awt.Point;
 import java.awt.event.MouseEvent;

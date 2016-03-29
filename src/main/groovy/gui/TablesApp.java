@@ -1,4 +1,6 @@
-import org.codehaus.groovy.runtime.DefaultGroovyMethods;
+package gui;
+
+import usecases.FileHandler;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -9,7 +11,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class TablesApp extends JFrame {
@@ -24,7 +27,7 @@ public class TablesApp extends JFrame {
         setSize(600, 400);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setTitle("TablesApp");
+        setTitle("gui.TablesApp");
     }
 
     private void setupComponents() {
@@ -44,9 +47,7 @@ public class TablesApp extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //				List<File> files = getSelectedFiles(filesTable);
-                DefaultGroovyMethods.println(this, codeArea.getText());
                 doSomethingWithFile(codeArea.getText());
-
             }
 
         });
@@ -153,7 +154,7 @@ public class TablesApp extends JFrame {
     private List<Integer> getSelectedRows(JTable table) {
         int[] sourceArray = table.getSelectedRows();
         Integer[] targetArray = new Integer[sourceArray.length];
-        for (int i = 0; i < sourceArray.length; DefaultGroovyMethods.next(i))
+        for (int i = 0; i < sourceArray.length; i++)
             targetArray[i] = Integer.valueOf(sourceArray[i]);
         List<Integer> rows = Arrays.asList(targetArray);
         // Collections.sort(rows);
