@@ -17,7 +17,7 @@ In addition the last expression of the code is returned in the column named resu
 
 ### Getting the file name
 
-```Groovy
+```groovy
 f.name
 ```
 
@@ -25,7 +25,7 @@ It returns the filename only for the file. This works because that is groovy cod
 
 ### Using the row number to sort the files
 
-```Groovy
+```groovy
 "${r+1}_${f.name}"
 ```
 
@@ -44,7 +44,7 @@ At the moment there are a couple of build-in functions:
 
 The project uses gradle for its build process. In order to run the application you need to have gradle installed and run
 
- ```Bash
+ ```bash
  #To run the application
  gradle run
  
