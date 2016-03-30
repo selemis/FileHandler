@@ -31,14 +31,30 @@ It returns the filename only for the file. This works because that is groovy cod
 
 This will add the number of row, followed by and underscore, in front of the file name.
 
+### Copying files to another folder.
+	
+```groovy
+dest = "/home/user/temp/${f.name}"
+f.copy(dest)
+dest
+```
+
+We define a destination variable named dest. Then we use the File object method copy, which will copy every file to the temp folder with the same name. Finally we return the dest variable so that it can be displayed in the **Result** column.
+
+row = "${r+1}".padLeft(3,'0')
+dest = "/home/user/temp/${row}_${f.name}"
+dest
+
 ## Build in functions#
 
 At the moment there are a couple of build-in functions:
 
 * ext(File)
-    * It returns the extension of the file
+    * It returns the extension of the file  
 * withoutExt(File)
     * It returns the filename without the extension
+    
+File class has also been enriched with method copy(String). The argument is the file destination.    
 
 ## Building the project
 

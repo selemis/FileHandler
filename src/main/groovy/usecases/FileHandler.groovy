@@ -1,8 +1,7 @@
 package usecases
 
-import groovy.transform.Canonical
-import groovy.transform.TupleConstructor
-
+//TODO replace with traits
+@Mixin(Functions)
 class FileHandler {
 
     String code
@@ -19,23 +18,7 @@ class FileHandler {
         clj.call(file, row)
     }
 
-    String ext(file) {
-        int dot = file.name.lastIndexOf(".");
-        return file.name.substring(dot + 1);
-    }
-
-    String withoutExt(file) { // gets filename without extension
-        file.name.lastIndexOf('.').with { it != -1 ? file.name[0..<it] : file.name }
-    }
-
     def loadFunctions() {
-        File.metaClass.copy = { String destName ->
-            if (delegate.isFile()) {
-                new File(destName).withOutputStream { out ->
-                    out.write delegate.readBytes()
-                }
-            }
-
-        }
+        overLoadFileWithCopy()
     }
 }
