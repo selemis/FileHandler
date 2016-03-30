@@ -41,9 +41,14 @@ dest
 
 We define a destination variable named dest. Then we use the File object method copy, which will copy every file to the temp folder with the same name. Finally we return the dest variable so that it can be displayed in the **Result** column.
 
+### Copying files to another folder prefixing the row number
+
+```groovy
 row = "${r+1}".padLeft(3,'0')
 dest = "/home/user/temp/${row}_${f.name}"
+f.copy(dest)
 dest
+```
 
 ## Build in functions#
 
