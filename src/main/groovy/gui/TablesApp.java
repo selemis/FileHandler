@@ -89,6 +89,20 @@ public class TablesApp extends JFrame {
         contentPane.add(scrollPane, BorderLayout.CENTER);
         contentPane.add(buttonsPanel, BorderLayout.SOUTH);
         contentPane.add(createTopPanel(), BorderLayout.NORTH);
+
+        JMenuBar menuBar = new JMenuBar();
+        JMenu file = new JMenu("File");
+        menuBar.add(file);
+        setJMenuBar(menuBar);
+
+        JMenuItem newMenuItem = new JMenuItem("New");
+        newMenuItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setupTableContent();
+            }
+        });
+        file.add(newMenuItem);
     }
 
     private JTable setupTable() {
@@ -116,7 +130,8 @@ public class TablesApp extends JFrame {
     }
 
     private void setupTableContent() {
-        java.util.List<File> projectFiles = loadFiles(new File("./"));
+        File dir = loadFolder();
+        java.util.List<File> projectFiles = loadFiles(dir);
         setTableData(projectFiles);
     }
 
@@ -263,6 +278,19 @@ public class TablesApp extends JFrame {
         }
 
     }
+
+    private File loadFolder() {
+        JFileChooser chooser = new JFileChooser();
+        chooser.setCurrentDirectory(new java.io.File("."));
+        chooser.setDialogTitle("choosertitle");
+        chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        chooser.setAcceptAllFileFilterUsed(false);
+        if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION)
+            return  chooser.getSelectedFile();
+
+        return null;
+    }
+
 
     public static void main(String[] args) {
         try {
