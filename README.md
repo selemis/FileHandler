@@ -38,6 +38,7 @@ dest = "/home/user/temp/${f.name}"
 f.copy(dest)
 dest
 ```
+We define a destination variable named dest. Then we use the File object method copy, which will copy every file to the temp folder with the same name. Finally we return the dest variable so that it can be displayed in the **Result** column.
 
 ### Renaming the files
 
@@ -46,8 +47,6 @@ dest = "${f.getParent()}/${(r + 1).toString().padLeft(2,'0')}_${f.name}"
 f.renameTo(dest)
 dest
 ```
-
-We define a destination variable named dest. Then we use the File object method copy, which will copy every file to the temp folder with the same name. Finally we return the dest variable so that it can be displayed in the **Result** column.
 
 ### Copying files to another folder prefixing the row number
 
