@@ -31,11 +31,19 @@ It returns the filename only for the file. This works because that is groovy cod
 
 This will add the number of row, followed by and underscore, in front of the file name.
 
-### Copying files to another folder.
+### Copying files to another folder
 	
 ```groovy
 dest = "/home/user/temp/${f.name}"
 f.copy(dest)
+dest
+```
+
+### Renaming the files
+
+```groovy
+dest = "${f.getParent()}/${(r + 1).toString().padLeft(2,'0')}_${f.name}"
+f.renameTo(dest)
 dest
 ```
 
