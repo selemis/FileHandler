@@ -16,6 +16,16 @@ import java.util.Arrays;
 import java.util.List;
 
 public class TablesApp extends JFrame {
+
+    private static final int COLUMN_ID = 0;
+    private static final int COLUMN_FILENAME = 1;
+    private static final int COLUMN_SIZE = 2;
+    private static final int COLUMN_RESULT = 3;
+    private JScrollPane scrollPane;
+    private JTable filesTable;
+    private JPanel buttonsPanel;
+    private JTextArea codeArea;
+
     public TablesApp() {
         setupFrame();
         setupComponents();
@@ -27,12 +37,11 @@ public class TablesApp extends JFrame {
         setSize(600, 400);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setTitle("gui.TablesApp");
+        setTitle("File Handler");
     }
 
     private void setupComponents() {
         filesTable = setupTable();
-        //
         buttonsPanel = new JPanel();
         buttonsPanel.setPreferredSize(new Dimension(0, 40));
         buttonsPanel.setLayout(null);
@@ -40,19 +49,38 @@ public class TablesApp extends JFrame {
         buttonsPanel.add(shiftButton("Up", 100, -1));
         buttonsPanel.add(shiftButton("Down", 200, 1));
         buttonsPanel.add(shiftButton("Bottom", 300, 99999));
+        buttonsPanel.add(performButton());
+        buttonsPanel.add(removeItemButton());
+        scrollPane = new JScrollPane();
+        scrollPane.setViewportView(filesTable);
+    }
 
-        JButton performButton = new JButton("Perform");
-        performButton.setBounds(400, 11, 91, 23);
-        performButton.addActionListener(new ActionListener() {
+    private void setupGui() {
+        Container contentPane = getContentPane();
+        contentPane.setLayout(new BorderLayout(0, 0));
+        contentPane.add(scrollPane, BorderLayout.CENTER);
+        contentPane.add(buttonsPanel, BorderLayout.SOUTH);
+        contentPane.add(createTopPanel(), BorderLayout.NORTH);
+        createMenu();
+    }
+
+    private void createMenu() {
+        JMenuBar menuBar = new JMenuBar();
+        setJMenuBar(menuBar);
+        JMenu file = new JMenu("File");
+        menuBar.add(file);
+
+        JMenuItem newMenuItem = new JMenuItem("New");
+        newMenuItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //				List<File> files = getSelectedFiles(filesTable);
-                doSomethingWithFile(codeArea.getText());
+                setupTableContent();
             }
-
         });
-        buttonsPanel.add(performButton);
+        file.add(newMenuItem);
+    }
 
+    private JButton removeItemButton() {
         JButton removeButton = new JButton("Remove");
         removeButton.setBounds(500, 11, 91, 23);
         removeButton.addActionListener(new ActionListener() {
@@ -63,12 +91,27 @@ public class TablesApp extends JFrame {
             }
 
         });
-        buttonsPanel.add(removeButton);
+        return removeButton;
+    }
 
-        //
-        scrollPane = new JScrollPane();
-        scrollPane.setViewportView(filesTable);
+    private JButton performButton() {
+        JButton performButton = new JButton("Perform");
+        performButton.setBounds(400, 11, 91, 23);
+        performButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //				List<File> files = getSelectedFiles(filesTable);
+                doSomethingWithFile(codeArea.getText());
+            }
 
+        });
+        return performButton;
+    }
+
+    private void setupTableContent() {
+        File dir = loadFolder();
+        java.util.List<File> projectFiles = loadFiles(dir);
+        setTableData(projectFiles);
     }
 
     private JButton shiftButton(String title, int x, final int shift) {
@@ -81,28 +124,6 @@ public class TablesApp extends JFrame {
 
         });
         return button;
-    }
-
-    private void setupGui() {
-        Container contentPane = getContentPane();
-        contentPane.setLayout(new BorderLayout(0, 0));
-        contentPane.add(scrollPane, BorderLayout.CENTER);
-        contentPane.add(buttonsPanel, BorderLayout.SOUTH);
-        contentPane.add(createTopPanel(), BorderLayout.NORTH);
-
-        JMenuBar menuBar = new JMenuBar();
-        JMenu file = new JMenu("File");
-        menuBar.add(file);
-        setJMenuBar(menuBar);
-
-        JMenuItem newMenuItem = new JMenuItem("New");
-        newMenuItem.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                setupTableContent();
-            }
-        });
-        file.add(newMenuItem);
     }
 
     private JTable setupTable() {
@@ -127,12 +148,6 @@ public class TablesApp extends JFrame {
 
         });
         return table;
-    }
-
-    private void setupTableContent() {
-        File dir = loadFolder();
-        java.util.List<File> projectFiles = loadFiles(dir);
-        setTableData(projectFiles);
     }
 
     private List<File> loadFiles(File directory) {
@@ -160,7 +175,6 @@ public class TablesApp extends JFrame {
             model.setValueAt(String.format("%,d", file.length()), row, COLUMN_SIZE);
             model.setValueAt(file, row, COLUMN_FILENAME);
         }
-
     }
 
     /**
@@ -302,12 +316,4 @@ public class TablesApp extends JFrame {
         application.setVisible(true);
     }
 
-    private static final int COLUMN_ID = 0;
-    private static final int COLUMN_FILENAME = 1;
-    private static final int COLUMN_SIZE = 2;
-    private static final int COLUMN_RESULT = 3;
-    private JScrollPane scrollPane;
-    private JTable filesTable;
-    private JPanel buttonsPanel;
-    private JTextArea codeArea;
 }
