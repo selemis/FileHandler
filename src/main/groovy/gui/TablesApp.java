@@ -11,8 +11,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.*;
 import java.util.List;
 
 public class TablesApp extends JFrame {
@@ -25,8 +24,10 @@ public class TablesApp extends JFrame {
     private JTable filesTable;
     private JPanel buttonsPanel;
     private JTextArea codeArea;
+    private Map<String, File> files;
 
     public TablesApp() {
+        files = new HashMap<String, File>();
         setupFrame();
         setupComponents();
         setupGui();
@@ -165,15 +166,18 @@ public class TablesApp extends JFrame {
 
     }
 
-    private void setTableData(List<File> files) {
+    private void setTableData(List<File> projectFiles) {
+//        files.clear();
         JTable table = filesTable;
-        Tables.setTableRows(table, Math.max(files.size(), 1));
+        Tables.setTableRows(table, Math.max(projectFiles.size(), 1));
         TableModel model = filesTable.getModel();
-        for (int row = 0; row < files.size(); row++) {
-            File file = files.get(row);
-            model.setValueAt("ID" + (101 + row), row, COLUMN_ID);
+        for (int row = 0; row < projectFiles.size(); row++) {
+            File file = projectFiles.get(row);
+            String id = "ID" + (101 + row);
+            files.put(id, file);
+            model.setValueAt(id, row, COLUMN_ID);
             model.setValueAt(String.format("%,d", file.length()), row, COLUMN_SIZE);
-            model.setValueAt(file, row, COLUMN_FILENAME);
+            model.setValueAt(file.getName(), row, COLUMN_FILENAME);
         }
     }
 
@@ -196,13 +200,14 @@ public class TablesApp extends JFrame {
     }
 
     private List<File> getFilesFromRows(List<Integer> rows) {
-        List<File> files = new ArrayList<File>();
+        List<File> fileList = new ArrayList<File>();
         for (int i = 0; i < rows.size(); i++) {
-            File file = (File) filesTable.getValueAt(rows.get(i), COLUMN_FILENAME);
-            ((ArrayList<File>) files).add(file);
+            String valueAt = (String) filesTable.getValueAt(rows.get(i), COLUMN_ID);
+            File file = files.get(valueAt);
+            ((ArrayList<File>) fileList).add(file);
         }
 
-        return files;
+        return fileList;
     }
 
     private void moveTableRows(JTable table, int shift) {
