@@ -1,0 +1,3 @@
+dest = "/home/user/temp/${f.name}"
+f.copy(dest)
+dest

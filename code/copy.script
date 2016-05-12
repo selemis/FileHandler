@@ -1,0 +1,4 @@
+row = "${r+1}".padLeft(3,'0')
+dest = "/home/user/temp/${row}_${f.name}"
+f.copy(dest)
+dest
