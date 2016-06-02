@@ -16,10 +16,11 @@ class OtherLogic implements LogicIF {
     List<File> loadFiles(File directory) {
         def files = []
         directory.eachFileRecurse {
-            files << it
+            if (!it.isDirectory())
+                files << it
         }
 
-        files
+        files.sort {it.name}
     }
 
     @Override
