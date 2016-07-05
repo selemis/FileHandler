@@ -47,13 +47,10 @@ class Configuration {
         config.button.width
     }
 
-
     @Memoized
     private static ConfigObject readConfig() {
-        println "Called"
-        new ConfigSlurper().parse(new File('FileHandler.config').toURL())
+        new ConfigSlurper().parse(Configuration.getResource('/FileHandler.config'))
     }
-
 
     public static void main(String[] args) {
         println Configuration.getEditorFontName()
@@ -61,7 +58,5 @@ class Configuration {
         println Configuration.getTableFontName()
         println Configuration.getTableFontSize()
     }
-
-
 
 }
